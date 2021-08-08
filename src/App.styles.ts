@@ -50,4 +50,19 @@ export const Wrapper = styled.div`
     font-size: 4rem;
     text-align: center;
     margin: 1rem;
+  }
+  .start,
+  .next {
+    cursor: pointer;
+    background: linear-gradient(180deg, #fff, #777);
+    border: 2px solid #555;
+    height: 2.5rem;
+    margin: 1rem 0;
+    padding: 0 3rem;
+    border-radius: 10px;
+  }
+
+  .start {
+    max-width: 200px;
+  }
 `;

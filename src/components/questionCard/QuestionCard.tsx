@@ -1,6 +1,8 @@
 import React from 'react';
 import { Answer } from '../../App';
 
+import { Wrapper, ButtonWrapper, ButtonWrapperProps } from './styles';
+
 type CardProps = {
   question: string;
   answers: string[];
@@ -17,22 +19,29 @@ const QuestionCard: React.FC<CardProps> = ({
   userAnswer,
   questionNr,
   totalQuestions,
-}) => (
-  <div>
-    <p className="number">
-      Question: {questionNr} / {totalQuestions}
-    </p>
-    <p dangerouslySetInnerHTML={{ __html: question }}></p>
-    <div>
-      {answers.map(answer => (
-        <div key={answer}>
-          <button disabled={!!userAnswer} onClick={() => cb(answer)}>
-            <span dangerouslySetInnerHTML={{ __html: answer }}></span>
-          </button>
-        </div>
-      ))}
-    </div>
-  </div>
-);
+}) => {
+  const getButtonWrapperProps = (answer: string): ButtonWrapperProps => ({
+    correct: (userAnswer as Answer)?.correctAnswer === answer,
+    userClicked: (userAnswer as Answer)?.answer === answer,
+  });
+
+  return (
+    <Wrapper>
+      <p className="number">
+        Question: {questionNr} / {totalQuestions}
+      </p>
+      <p dangerouslySetInnerHTML={{ __html: question }}></p>
+      <div>
+        {answers.map(answer => (
+          <ButtonWrapper key={answer} {...getButtonWrapperProps(answer)}>
+            <button disabled={!!userAnswer} onClick={() => cb(answer)}>
+              <span dangerouslySetInnerHTML={{ __html: answer }}></span>
+            </button>
+          </ButtonWrapper>
+        ))}
+      </div>
+    </Wrapper>
+  );
+};
 
 export default QuestionCard;
