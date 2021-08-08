@@ -4,7 +4,7 @@ import { Answer } from '../../App';
 type CardProps = {
   question: string;
   answers: string[];
-  cb: any;
+  cb: (answer: string) => void;
   userAnswer: Answer | false;
   questionNr: number;
   totalQuestions: number;
