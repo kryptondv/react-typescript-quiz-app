@@ -22,14 +22,14 @@ const App = () => {
       </button>
       <p className="score"></p>
       <p>Loading Questions</p>
-      <QuestionCard
+      {/* <QuestionCard
         questionNr={currentQuestion + 1}
         totalQuestions={questions.length}
         question={questions[currentQuestion].question}
         answers={questions[currentQuestion].answers}
         userAnswer={!!userAnswers.length && userAnswers[currentQuestion]}
         cb={checkAnswer}
-      />
+      /> */}
       <button className="next" onClick={nextQuestion}>
         Next Question
       </button>
