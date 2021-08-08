@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Difficulty, fetchQuizQuestions, QuestionState } from './API';
 import QuestionCard from './components/questionCard/QuestionCard';
+import { Difficulty, fetchQuizQuestions, QuestionState } from './API';
+
+import { GlobalStyle, Wrapper } from './App.styles';
 
 export type Answer = {
   question: string;
@@ -49,32 +51,37 @@ const App = () => {
 
   const isFinalQuestion = currentQuestion === questions.length - 1;
   return (
-    <div>
-      <h1>Quiz App</h1>
-      {gameOver && (
-        <button className="start" onClick={startQuiz}>
-          Start
-        </button>
-      )}
-      {!gameOver && <p className="score">Score: {score}</p>}
-      {gameOver && <p>Game Over. Your final score is {score}</p>}
-      {loading && <p>Loading Questions</p>}
-      {!loading && (!gameOver || isFinalQuestion) && (
-        <QuestionCard
-          questionNr={currentQuestion + 1}
-          totalQuestions={questions.length}
-          question={questions[currentQuestion].question}
-          answers={questions[currentQuestion].answers}
-          userAnswer={!!userAnswers.length && userAnswers[currentQuestion]}
-          cb={checkAnswer}
-        />
-      )}
-      {!gameOver && !loading && !isFinalQuestion && (
-        <button className="next" onClick={nextQuestion}>
-          Next Question
-        </button>
-      )}
-    </div>
+    <>
+      <GlobalStyle />
+      <Wrapper>
+        <h1>Quiz App</h1>
+        {gameOver && (
+          <button className="start" onClick={startQuiz}>
+            Start
+          </button>
+        )}
+        {!gameOver && <p className="score">Score: {score}</p>}
+        {gameOver && !!userAnswers.length && (
+          <p>Game Over. Your final score is {score}</p>
+        )}
+        {loading && <p>Loading Questions</p>}
+        {!loading && (!gameOver || isFinalQuestion) && (
+          <QuestionCard
+            questionNr={currentQuestion + 1}
+            totalQuestions={questions.length}
+            question={questions[currentQuestion].question}
+            answers={questions[currentQuestion].answers}
+            userAnswer={!!userAnswers.length && userAnswers[currentQuestion]}
+            cb={checkAnswer}
+          />
+        )}
+        {!gameOver && !loading && !isFinalQuestion && (
+          <button className="next" onClick={nextQuestion}>
+            Next Question
+          </button>
+        )}
+      </Wrapper>
+    </>
   );
 };
 
