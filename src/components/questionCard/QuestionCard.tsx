@@ -4,7 +4,7 @@ type CardProps = {
   question: string;
   answers: string[];
   cb: any;
-  userAnswer: boolean;
+  userAnswer: string | false;
   questionNr: number;
   totalQuestions: number;
 };
@@ -25,7 +25,7 @@ const QuestionCard: React.FC<CardProps> = ({
     <div>
       {answers.map(answer => (
         <div key={answer}>
-          <button disabled={userAnswer} onClick={cb}>
+          <button disabled={!!userAnswer} onClick={cb}>
             <span dangerouslySetInnerHTML={{ __html: answer }}></span>
           </button>
         </div>
