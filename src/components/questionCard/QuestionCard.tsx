@@ -1,10 +1,11 @@
 import React from 'react';
+import { Answer } from '../../App';
 
 type CardProps = {
   question: string;
   answers: string[];
   cb: any;
-  userAnswer: string | false;
+  userAnswer: Answer | false;
   questionNr: number;
   totalQuestions: number;
 };

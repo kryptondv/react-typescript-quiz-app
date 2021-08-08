@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Difficulty, fetchQuizQuestions, QuestionState } from './API';
 import QuestionCard from './components/questionCard/QuestionCard';
 
-type Answer = {
+export type Answer = {
   question: string;
   answer: string;
   correct: boolean;
@@ -21,7 +21,6 @@ const App = () => {
     setLoading(true);
     setGameOver(false);
     const newQuestions = await fetchQuizQuestions(10, Difficulty.EASY);
-
     setQuestions(newQuestions);
     setScore(0);
     setUserAnswers([]);
@@ -35,22 +34,28 @@ const App = () => {
   return (
     <div>
       <h1>Quiz App</h1>
-      <button className="start" onClick={startQuiz}>
-        Start
-      </button>
-      <p className="score"></p>
-      <p>Loading Questions</p>
-      {/* <QuestionCard
-        questionNr={currentQuestion + 1}
-        totalQuestions={questions.length}
-        question={questions[currentQuestion].question}
-        answers={questions[currentQuestion].answers}
-        userAnswer={!!userAnswers.length && userAnswers[currentQuestion]}
-        cb={checkAnswer}
-      /> */}
-      <button className="next" onClick={nextQuestion}>
-        Next Question
-      </button>
+      {gameOver && (
+        <button className="start" onClick={startQuiz}>
+          Start
+        </button>
+      )}
+      {!gameOver && <p className="score">Score:</p>}
+      {loading && <p>Loading Questions</p>}
+      {!loading && !gameOver && (
+        <QuestionCard
+          questionNr={currentQuestion + 1}
+          totalQuestions={questions.length}
+          question={questions[currentQuestion].question}
+          answers={questions[currentQuestion].answers}
+          userAnswer={!!userAnswers.length && userAnswers[currentQuestion]}
+          cb={checkAnswer}
+        />
+      )}
+      {!gameOver && !loading && currentQuestion + 1 < questions.length && (
+        <button className="next" onClick={nextQuestion}>
+          Next Question
+        </button>
+      )}
     </div>
   );
 };
