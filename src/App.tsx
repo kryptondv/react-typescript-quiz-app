@@ -39,13 +39,15 @@ const App = () => {
         correctAnswer: questions[currentQuestion].correct_answer,
       };
       setUserAnswers(prev => [...prev, answerObject]);
-      currentQuestion === questions.length - 1 && setGameOver(true);
+      isFinalQuestion && setGameOver(true);
     }
   };
 
   const nextQuestion = () => {
     setCurrentQuestion(prev => prev + 1);
   };
+
+  const isFinalQuestion = currentQuestion === questions.length - 1;
   return (
     <div>
       <h1>Quiz App</h1>
@@ -57,7 +59,7 @@ const App = () => {
       {!gameOver && <p className="score">Score: {score}</p>}
       {gameOver && <p>Game Over. Your final score is {score}</p>}
       {loading && <p>Loading Questions</p>}
-      {!loading && !gameOver && (
+      {!loading && (!gameOver || isFinalQuestion) && (
         <QuestionCard
           questionNr={currentQuestion + 1}
           totalQuestions={questions.length}
@@ -67,7 +69,7 @@ const App = () => {
           cb={checkAnswer}
         />
       )}
-      {!gameOver && !loading && currentQuestion + 1 < questions.length && (
+      {!gameOver && !loading && !isFinalQuestion && (
         <button className="next" onClick={nextQuestion}>
           Next Question
         </button>
