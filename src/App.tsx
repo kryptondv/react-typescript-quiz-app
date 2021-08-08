@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { QuestionState } from './API';
+import { Difficulty, fetchQuizQuestions, QuestionState } from './API';
 import QuestionCard from './components/questionCard/QuestionCard';
 
 type Answer = {
@@ -17,7 +17,17 @@ const App = () => {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
 
-  const startQuiz = async () => {};
+  const startQuiz = async () => {
+    setLoading(true);
+    setGameOver(false);
+    const newQuestions = await fetchQuizQuestions(10, Difficulty.EASY);
+
+    setQuestions(newQuestions);
+    setScore(0);
+    setUserAnswers([]);
+    setCurrentQuestion(0);
+    setLoading(false);
+  };
 
   const checkAnswer = (e: MouseEvent) => {};
 
