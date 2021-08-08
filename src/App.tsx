@@ -5,7 +5,7 @@ import QuestionCard from './components/questionCard/QuestionCard';
 export type Answer = {
   question: string;
   answer: string;
-  correct: boolean;
+  isCorrect: boolean;
   correctAnswer: string;
 };
 
@@ -28,9 +28,24 @@ const App = () => {
     setLoading(false);
   };
 
-  const checkAnswer = (e: MouseEvent) => {};
+  const checkAnswer = (answer: string) => {
+    if (!gameOver) {
+      const isCorrect = questions[currentQuestion].correct_answer === answer;
+      isCorrect && setScore(prev => prev + 1);
+      const answerObject: Answer = {
+        question: questions[currentQuestion].question,
+        answer,
+        isCorrect,
+        correctAnswer: questions[currentQuestion].correct_answer,
+      };
+      setUserAnswers(prev => [...prev, answerObject]);
+      currentQuestion === questions.length - 1 && setGameOver(true);
+    }
+  };
 
-  const nextQuestion = () => {};
+  const nextQuestion = () => {
+    setCurrentQuestion(prev => prev + 1);
+  };
   return (
     <div>
       <h1>Quiz App</h1>
@@ -39,7 +54,8 @@ const App = () => {
           Start
         </button>
       )}
-      {!gameOver && <p className="score">Score:</p>}
+      {!gameOver && <p className="score">Score: {score}</p>}
+      {gameOver && <p>Game Over. Your final score is {score}</p>}
       {loading && <p>Loading Questions</p>}
       {!loading && !gameOver && (
         <QuestionCard
